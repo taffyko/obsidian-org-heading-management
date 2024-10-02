@@ -1,0 +1,63 @@
+/*
+
+This CSS file will be included with your plugin, and
+available in the app when your plugin is enabled.
+
+If your plugin does not need CSS, delete this file.
+
+*/
+
+:root {
+	--org-indent-increment: 1rem;
+}
+
+@function repeat($text, $n){
+	$c: "";
+	@for $i from 1 through $n {
+		$c: $c + $text;
+	}
+	@return $c;
+}
+
+body.org-heading-management__indentation {
+	@for $i from 1 through 6 {
+		.cm-indent-#{$i} {
+			&:not(.HyperMD-header)
+			{
+				--org-indent-amount: calc(var(--org-indent-increment) * #{$i});
+				position: relative;
+				left: var(--org-indent-amount) !important;
+			}
+
+			/* workaround for being unable to reliably apply cm-indent classes to widgets added by other plugins */
+			@for $j from 1 through 16 {
+				& #{repeat("+ :not(.HyperMD-header)", $j)} {
+					--org-indent-amount: calc(var(--org-indent-increment) * #{$i});
+					position: relative;
+					left: var(--org-indent-amount) !important;
+				}
+			}
+			
+			&.HyperMD-header-#{$i} {
+				--org-indent-amount: calc(var(--org-indent-increment) * #{$i});
+				position: relative;
+				left: calc(var(--org-indent-amount) - var(--org-indent-increment));
+			}
+			
+		}
+	}
+}
+body.org-heading-management__reduced-margins {
+	.markdown-source-view.mod-cm6.is-readable-line-width .cm-sizer {
+		margin-left: 0rem;
+	}
+}
+
+body.org-heading-management__bullets {
+	.HyperMD-header :not(.cm-formatting-header) + .cm-header:not(.cm-formatting-header)::before {
+		position: relative;
+		display: inline-block;
+		content: "◉";
+		width: calc(max(var(--org-indent-increment), 1.2em));
+	}
+}
