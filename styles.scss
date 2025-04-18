@@ -54,10 +54,12 @@ body.org-heading-management__reduced-margins {
 }
 
 body.org-heading-management__bullets {
-	.HyperMD-header :not(.cm-formatting-header) + .cm-header:not(.cm-formatting-header)::before {
-		position: relative;
-		display: inline-block;
-		content: "◉";
-		width: calc(max(var(--org-indent-increment), 1.2em));
+	.HyperMD-header > :not(.cm-formatting-header) + .cm-header:not(.cm-formatting-header) {
+		&:nth-child(1 of .cm-header)::before {
+			position: relative;
+			display: inline-block;
+			content: "◉";
+			width: calc(max(var(--org-indent-increment), 1.2em));
+		}
 	}
 }
